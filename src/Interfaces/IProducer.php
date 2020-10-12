@@ -24,14 +24,14 @@ interface IProducer {
    * @param mixed $value 
    * @return mixed 
    */
-  public function setObjectAttribute(object $object, string $name, $value);
+  public static function setObjectAttribute(object $object, string $name, $value);
   
   /**
    * @param object $object 
    * @param string $name 
    * @return mixed 
    */
-  public function getObjectAttribute(object $object, string $name);
+  public static function getObjectAttribute(object $object, string $name);
 
   /**
    * @param Communicator $communicator 

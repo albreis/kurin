@@ -2,16 +2,16 @@
 
 namespace Albreis\Kurin;
 
-use Albreis\Kurin\Interfaces\ICommunicator;
 use Albreis\Kurin\Interfaces\IProducer;
+use Albreis\Kurin\Traits\InformationExtractor;
+use Albreis\Kurin\Traits\ObjectManager;
 use DateTime;
 use DateTimeZone;
-use ReflectionException;
-use ReflectionObject;
-use stdClass;
 
 /** @package Albreis\Kurin */
 abstract class Producer extends Communicator implements IProducer {
+
+  use InformationExtractor, ObjectManager;
 
   protected $model;
   protected ?Communicator $communicator = null;
@@ -69,38 +69,6 @@ abstract class Producer extends Communicator implements IProducer {
   /** @return null|string  */
   public function getModel(): ?string {
     return $this->model;
-  }
-
-  /**
-   * @param object $object 
-   * @param string $name 
-   * @param mixed $value 
-   * @return $this 
-   * @throws ReflectionException 
-   */
-  public function setObjectAttribute(object $object, string $name, $value) {
-    $manipulator = new ReflectionObject($object);
-    if($object instanceof stdClass && !property_exists($object, $name)) {
-      $object->{$name} = null;
-    }
-    $prop = $manipulator->getProperty($name);
-    $prop->setAccessible(true);
-    $prop->setValue($object, $value);
-    return $this;
-  }
-
-  /**
-   * @param object $object 
-   * @param string $name 
-   * @param mixed $value 
-   * @return $this 
-   * @throws ReflectionException 
-   */
-  public function getObjectAttribute(object $object, string $name) {
-    $manipulator = new ReflectionObject($object);
-    $prop = $manipulator->getProperty($name);
-    $prop->setAccessible(true);    
-    return $prop->getValue($object);
   }
 
 }

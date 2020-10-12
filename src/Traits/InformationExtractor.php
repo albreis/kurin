@@ -1,8 +1,16 @@
 <?php namespace Albreis\Kurin\Traits;
 
 use DateTime;
+use ReflectionObject;
 
 trait InformationExtractor { 
+  
+  public static function getObjectAttribute(object $object, string $name) {
+    $manipulator = new ReflectionObject($object);
+    $prop = $manipulator->getProperty($name);
+    $prop->setAccessible(true);    
+    return $prop->getValue($object);
+  }
 
   /**
    * @param null|object $object 
@@ -11,9 +19,9 @@ trait InformationExtractor {
   public function getCreatedAt(?object $object = null): ?DateTime
   {
     if($object) {
-      return $object->created_at;
+      return self::getObjectAttribute($object, 'created_at');
     }
-    return $this->created_at;;
+    return self::getObjectAttribute($this, 'created_at');
   }
 
   /**
@@ -22,7 +30,10 @@ trait InformationExtractor {
    */
   public function getUpdatedAt(?object $object = null): ?DateTime
   {
-    return null;
+    if($object) {
+      return self::getObjectAttribute($object, 'updated_at');
+    }
+    return self::getObjectAttribute($this, 'updated_at');
   }
 
   /**
@@ -31,7 +42,10 @@ trait InformationExtractor {
    */
   public function getDeletedAt(?object $object = null): ?DateTime
   {
-    return null;
+    if($object) {
+      return self::getObjectAttribute($object, 'deleted_at');
+    }
+    return self::getObjectAttribute($this, 'deleted_at');
   }
 
   /**
@@ -40,7 +54,10 @@ trait InformationExtractor {
    */
   public function getCreatedBy(?object $object = null): ?string 
   {
-    return null;
+    if($object) {
+      return self::getObjectAttribute($object, 'created_by');
+    }
+    return self::getObjectAttribute($this, 'created_by');
   }
 
   /**
@@ -49,7 +66,10 @@ trait InformationExtractor {
    */
   public function getUpdatedBy(?object $object = null): ?string 
   {
-    return null;
+    if($object) {
+      return self::getObjectAttribute($object, 'updated_by');
+    }
+    return self::getObjectAttribute($this, 'updated_by');
   }
 
   /**
@@ -58,6 +78,9 @@ trait InformationExtractor {
    */
   public function getDeletedBy(?object $object = null): ?string 
   {
-    return null;
+    if($object) {
+      return self::getObjectAttribute($object, 'deleted_by');
+    }
+    return self::getObjectAttribute($this, 'deleted_by');
   }
 }

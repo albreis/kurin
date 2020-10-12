@@ -35,7 +35,7 @@ trait Cache {
     }
 
     if(!file_exists(dirname(self::$cache_path))) {
-      mkdir(dirname(self::$cache_path), true, 0755);
+      mkdir(dirname(self::$cache_path), 0755, true);
     }
 
     if (is_string($value) || is_numeric($value) || is_bool($value)) {

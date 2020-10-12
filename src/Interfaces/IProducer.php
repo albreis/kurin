@@ -1,5 +1,6 @@
 <?php namespace Albreis\Kurin\Interfaces;
 
+use Albreis\Kurin\Communicator;
 use DateTime;
 
 /** @package Albreis\Kurin\Interfaces */
@@ -9,20 +10,6 @@ interface IProducer {
   public function create(): object;
 
   /**
-   * @param object $object 
-   * @param DateTime $date 
-   * @return mixed 
-   */
-  public function setCreatedAt(object $object, DateTime $date);
-
-  /**
-   * @param object $object 
-   * @param object $creator 
-   * @return mixed 
-   */
-  public function setCreatedBy(object $object, object $creator);
-
-  /**
    * @param string $model 
    * @return mixed 
    */
@@ -30,5 +17,29 @@ interface IProducer {
   
   /** @return null|string  */
   public function getModel(): ?string;
+
+  /**
+   * @param object $object 
+   * @param string $name 
+   * @param mixed $value 
+   * @return mixed 
+   */
+  public function setObjectAttribute(object $object, string $name, $value);
+  
+  /**
+   * @param object $object 
+   * @param string $name 
+   * @return mixed 
+   */
+  public function getObjectAttribute(object $object, string $name);
+
+  /**
+   * @param Communicator $communicator 
+   * @return mixed 
+   */
+  public function setCommunicator(Communicator $communicator);
+
+  /** @return null|Communicator  */
+  public function getCommunicator(): ?Communicator;
   
 }

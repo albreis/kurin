@@ -11,4 +11,6 @@ interface IEvent {
 
   /** @return null|string  */
   public function getMessage(): ?string;
+
+  public function addCallback(callable ...$callback);
 }

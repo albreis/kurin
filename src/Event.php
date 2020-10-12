@@ -5,7 +5,12 @@ use Albreis\Kurin\Interfaces\IEvent;
 /** @package Albreis\Kurin */
 abstract class Event implements IEvent {
 
+  private ?array $callbacks = [];
   private $message;
+
+  public function __construct(callable ...$callbacks) {
+    $this->callbacks = $callbacks;
+  }
 
   /**
    * @param string $message 
@@ -20,4 +25,6 @@ abstract class Event implements IEvent {
   public function getMessage(): string {
     return $this->message;
   }
+
+
 }

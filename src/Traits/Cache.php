@@ -14,7 +14,7 @@ trait Cache {
    * @throws Exception 
    */
   public static function file(string $key, ?int $time, $value = null) {
-    self::$cache_path = CACHE_DIR . "/{$key}/index.html";
+    self::$cache_path = CACHE_DIR . "/{$key}";
     return self::store($time, $value);
   }
 
@@ -30,7 +30,7 @@ trait Cache {
       throw new Exception('Constant CACHE_DIR is not defined');
     }
 
-    if(file_exists(self::$cache_path) && time() - filemtime(self::$cache_path) < $time) {
+    if($time < 0 || (file_exists(self::$cache_path) && time() - filemtime(self::$cache_path) < $time)) {
       return self::getCache();
     }
 
@@ -56,8 +56,10 @@ trait Cache {
    * @param mixed|null $value 
    * @return void 
    */
-  private static function setCache($value = null) { 
-    file_put_contents(self::$cache_path, $value);
+  private static function setCache($value = null) {
+    $tmp = time(); 
+    file_put_contents(self::$cache_path . ".{$tmp}", $value);
+    rename(self::$cache_path . ".{$tmp}", self::$cache_path);
   }
 
   /** @return null|string  */

@@ -1,6 +1,7 @@
 <?php namespace Albreis\Kurin\Traits;
 
 use DateTime;
+use ReflectionException;
 use ReflectionObject;
 use stdClass;
 
@@ -21,6 +22,19 @@ trait ObjectManager {
     $prop = $manipulator->getProperty($name);
     $prop->setAccessible(true);
     $prop->setValue($object, $value);
+  }
+
+  /**
+   * @param object $object 
+   * @param string $name 
+   * @return object 
+   * @throws ReflectionException 
+   */
+  public static function setAttributeReadable(object $object, string $name) {
+    $manipulator = new ReflectionObject($object);
+    $prop = $manipulator->getProperty($name);
+    $prop->setAccessible(true);
+    return $object;
   }
 
   /**

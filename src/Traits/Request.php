@@ -18,7 +18,7 @@ trait Request {
    * @param null|string $type 
    * @return mixed 
    */
-  public static function inputJson(?string $key, ?string $default, ?string $type = null) {
+  public static function inputJson(?string $key, $default = null, ?string $type = null) {
     $request = json_decode(self::input(), true);
     return self::getValue($request, $key, $default, $type);
   }

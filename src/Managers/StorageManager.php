@@ -12,6 +12,14 @@ abstract class StorageManager implements IStorageManager {
   protected $objects;
 
   /**
+   * @param null|object $storage 
+   * @return void 
+   */
+  public function __construct(?object $storage = null) {
+    $this->setStorage($storage??Database::connect());
+  }
+
+  /**
    * @param object $object 
    * @return mixed 
    */
@@ -35,7 +43,7 @@ abstract class StorageManager implements IStorageManager {
    */
   public function setStorage(?Query $storage = null) {
     if(!$storage) {
-      $storage = Database::connect(new MySQL);
+      $storage = Database::connect();
     }
     $this->storage = $storage;
     return $this;

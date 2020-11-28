@@ -1,14 +1,15 @@
 <?php namespace Albreis\Kurin\Database;
 
+use Exception;
 use PDO;
 use PDOException;
 use PDOStatement;
 
 class Query {
 
-    private PDO $db;
+    public PDO $db;
+    public $stmt;
     private ?string $model = 'stdClass';
-    private $lastInsertId;
 
     public function __construct(Connector $connector) {
       $this->db = $connector->connect();
@@ -27,22 +28,19 @@ class Query {
     public function query(string $sql, array $params = []): PDOStatement 
     {     
       try {
-        $this->db->beginTransaction();
-        $stmt  = $this->db->prepare($sql, [\PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL]);
+        $this->stmt  = $this->db->prepare($sql);
         foreach($params as $key => $value) {
           if(is_numeric($value)) {
-            $stmt->bindValue(":{$key}", $value, PDO::PARAM_INT);
+            $this->stmt->bindValue(":{$key}", $value, PDO::PARAM_INT);
           } else {
-            $stmt->bindValue(":{$key}", $value);
+            $this->stmt->bindValue(":{$key}", $value);
           }
         }
-        $stmt->execute();
-        $this->lastInsertId = $this->db->lastInsertId();
-        $this->db->commit();
+        $this->stmt->execute();
       } catch(PDOException $e) {
-        $this->db->rollback();
+        throw new Exception($e->getMessage());
       }
-      return $stmt;
+      return $this->stmt;
     }
   
     /**
@@ -50,26 +48,27 @@ class Query {
      * @param array $params 
      * @return array 
      */
-    public function queryOne(string $sql, array $params = []): ?object 
+    public function queryOne(string $sql, array $params = []) 
     {    
       try {
-        $this->db->beginTransaction();
-        $stmt  = $this->db->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL]);
+        $this->stmt  = $this->db->prepare($sql);
         foreach($params as $key => $value) {
           if(is_numeric($value)) {
-            $stmt->bindValue(":{$key}", $value, PDO::PARAM_INT);
+            $this->stmt->bindValue(":{$key}", $value, PDO::PARAM_INT);
           } else {
-            $stmt->bindValue(":{$key}", $value);
+            $this->stmt->bindValue(":{$key}", $value);
           }
         }
-        $stmt->execute();
-        $this->lastInsertId = $this->db->lastInsertId();
-        $this->db->commit();
+        $this->stmt->execute();
       } catch(PDOException $e) {
-        $this->db->rollback();
+        throw new Exception($e->getMessage());
       }
   
-      $result = $stmt->fetchObject($this->model);
+      $result = $this->stmt->fetchObject($this->model);
+
+      if($result == false) {
+        return null;
+      }
   
       return $result;
     }
@@ -82,25 +81,21 @@ class Query {
     public function listQuery(string $sql, array $params = []): ?array 
     {    
       try {
-        $this->db->beginTransaction();
-        $stmt  = $this->db->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL]);
+        $this->stmt  = $this->db->prepare($sql);
         foreach($params as $key => $value) {
           if(is_numeric($value)) {
-            $stmt->bindValue(":{$key}", $value, PDO::PARAM_INT);
+            $this->stmt->bindValue(":{$key}", $value, PDO::PARAM_INT);
           } else {
-            $stmt->bindValue(":{$key}", $value);
+            $this->stmt->bindValue(":{$key}", $value);
           }
         }
-        $stmt->execute();
-        $this->lastInsertId = $this->db->lastInsertId();
-        $this->db->commit();
+        $this->stmt->execute();
       } catch(PDOException $e) {
-        $this->db->rollback();
+        throw new Exception($e->getMessage());
       }
   
       $result = [];
-  
-      while($row = $stmt->fetchObject($this->model)) {
+      while($row = $this->stmt->fetchObject($this->model)) {
         $result[] = $row;
       }
   
@@ -108,7 +103,7 @@ class Query {
     }
 
     public function lastInsertId(): ?int {
-      return $this->lastInsertId;
+      return $this->db->lastInsertId();
     }
     
 }

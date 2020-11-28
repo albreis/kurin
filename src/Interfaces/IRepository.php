@@ -1,8 +1,8 @@
-<?php namespace Albreis\Kurin\Interfaces\Repositories;
+<?php namespace Albreis\Kurin\Interfaces;
 
 use PDOStatement;
 
-interface IAbstractRepository {
+interface IRepository {
 
   /**
    * get all projects
@@ -22,5 +22,14 @@ interface IAbstractRepository {
    * get ordering by
    */
   public function getOrderBy(): array;
+
+  /**
+   * @param string $field 
+   * @param string $value 
+   * @return null|object 
+   */
+  public function findBy(string $field, string $value): ?object;
+
+  public function exists(object $object, string $field): bool;
 
 }

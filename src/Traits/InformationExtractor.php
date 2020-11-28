@@ -16,7 +16,7 @@ trait InformationExtractor {
    * @param null|object $object 
    * @return null|DateTime 
    */
-  public function getCreatedAt(?object $object = null): ?DateTime
+  public function getCreatedAt(?object $object = null)
   {
     if($object) {
       return self::getObjectAttribute($object, 'created_at');
@@ -28,7 +28,7 @@ trait InformationExtractor {
    * @param null|object $object 
    * @return null|DateTime 
    */
-  public function getUpdatedAt(?object $object = null): ?DateTime
+  public function getUpdatedAt(?object $object = null)
   {
     if($object) {
       return self::getObjectAttribute($object, 'updated_at');
@@ -40,7 +40,7 @@ trait InformationExtractor {
    * @param null|object $object 
    * @return null|DateTime 
    */
-  public function getDeletedAt(?object $object = null): ?DateTime
+  public function getDeletedAt(?object $object = null)
   {
     if($object) {
       return self::getObjectAttribute($object, 'deleted_at');

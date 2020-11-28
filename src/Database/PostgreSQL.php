@@ -3,11 +3,9 @@
 use PDO;
 
 /** @package Albreis\Kurin\Database */
-class MySQL extends Connector {
+class PostgreSQL extends Connector {
   
   private $options = array(
-    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-    PDO::ATTR_PERSISTENT => true,
   );
 
   /**
@@ -18,8 +16,9 @@ class MySQL extends Connector {
    * @return PDO 
    */
   public function connect(?array $options = []): PDO {
-    $connection = new PDO('mysql:host=' . DATABASE_HOST . ';dbname=' . DATABASE_DB, DATABASE_USER, DATABASE_PASS, array_merge($this->options, $options));
+    $connection = new PDO('pgsql:host=' . DATABASE_HOST . ';port=' . DATABASE_PORT . ';dbname=' . DATABASE_DB, DATABASE_USER, DATABASE_PASS, array_merge($this->options, $options));
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $connection->setAttribute(PDO::ATTR_CURSOR, PDO::CURSOR_SCROLL);
     return $connection;
   }
 }

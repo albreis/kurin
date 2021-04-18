@@ -2,6 +2,7 @@
   "name": "albreis/kurin",
   "version": "2.0.4.0",
   "type": "library",
+  "minimum-stability": "dev",
   "require": {
     "php": ">=7.4"
   },

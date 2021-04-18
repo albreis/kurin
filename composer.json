@@ -9,10 +9,5 @@
     "psr-4": {
       "Albreis\\Kurin\\": "src"
     }
-  },
-  "scripts": {
-    "post-install-cmd": [
-      "cp -r ./src/bin ../../"
-    ]
   }
 }

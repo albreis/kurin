@@ -12,7 +12,7 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "cp -r src/bin ../../../"
+      "cp -r src/bin ../../../../"
     ]
   }
 }

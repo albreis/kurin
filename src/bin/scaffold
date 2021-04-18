@@ -15,7 +15,7 @@ if(!empty($resources)) {
 }
 
 if(empty($resources) || in_array('controller', $_resources)) {
-    $controller = file_get_contents("generators/Controller.php");
+    $controller = file_get_contents(__DIR__ . "/generators/Controller.php");
     if(!file_exists(__DIR__ . '/../App/Controllers')) {
         mkdir(__DIR__ . '/../App/Controllers', 0755, true);
     }
@@ -28,7 +28,7 @@ if(empty($resources) || in_array('controller', $_resources)) {
 }
 
 if(empty($resources) || in_array('manager', $_resources)) {
-    $manager = file_get_contents("generators/StorageManager.php");
+    $manager = file_get_contents(__DIR__ . "/generators/StorageManager.php");
     if(!file_exists(__DIR__ . '/../App/Managers')) {
         mkdir(__DIR__ . '/../App/Managers', 0755, true);
     }
@@ -41,7 +41,7 @@ if(empty($resources) || in_array('manager', $_resources)) {
 }
 
 if(empty($resources) || in_array('model', $_resources)) {
-    $model = file_get_contents("generators/Model.php");
+    $model = file_get_contents(__DIR__ . "/generators/Model.php");
     if(!file_exists(__DIR__ . '/../App/Models')) {
         mkdir(__DIR__ . '/../App/Models', 0755, true);
     }
@@ -54,7 +54,7 @@ if(empty($resources) || in_array('model', $_resources)) {
 }
 
 if(empty($resources) || in_array('producer', $_resources)) {
-    $producer = file_get_contents("generators/Producer.php");
+    $producer = file_get_contents(__DIR__ . "/generators/Producer.php");
     if(!file_exists(__DIR__ . '/../App/Producers')) {
         mkdir(__DIR__ . '/../App/Producers', 0755, true);
     }
@@ -67,7 +67,7 @@ if(empty($resources) || in_array('producer', $_resources)) {
 }
 
 if(empty($resources) || in_array('repository', $_resources)) {
-    $repository = file_get_contents("generators/Repository.php");
+    $repository = file_get_contents(__DIR__ . "/generators/Repository.php");
     if(!file_exists(__DIR__ . '/../App/Repositories')) {
         mkdir(__DIR__ . '/../App/Repositories', 0755, true);
     }
@@ -80,7 +80,7 @@ if(empty($resources) || in_array('repository', $_resources)) {
 }
 
 if(empty($resources) || in_array('validator', $_resources)) {
-    $validator = file_get_contents("generators/Validator.php");
+    $validator = file_get_contents(__DIR__ . "/generators/Validator.php");
     if(!file_exists(__DIR__ . '/../App/Validators')) {
         mkdir(__DIR__ . '/../App/Validators', 0755, true);
     }
